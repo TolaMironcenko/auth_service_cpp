@@ -1,0 +1,1 @@
+#define JWT_SECRET_KEY "secret"

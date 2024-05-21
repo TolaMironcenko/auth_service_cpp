@@ -1,14 +1,15 @@
 #include <iostream>
-#include "libs/httplib.h"
-#include "libs/json.hpp"
 #include <fstream>
+#include <httplib.h>
+#include <json.hpp>
+#include <jwt-cpp/jwt.h>
+
+#include "auth/auth.hpp"
 
 int main() {
     httplib::Server srv;
 
-    srv.Get("/api/token", [](const httplib::Request& request, httplib::Response& response) {
-        response.set_content("{\"token\":\"qwerty\"}", "application/json");
-    });
+    srv.Post("/api/token", auth);
 
     srv.Get("/api/users", [](const httplib::Request& request, httplib::Response& response) {
         std::ifstream usersfile("users.json");
