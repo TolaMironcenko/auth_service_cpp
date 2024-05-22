@@ -6,5 +6,10 @@ include_directories(./src/libs/)
 
 find_package(jwt-cpp REQUIRED)
 
-add_executable(auth_service src/auth_service.cpp src/auth/auth.cpp)
+add_executable(
+    auth_service 
+    src/auth_service.cpp 
+    src/auth/auth.cpp 
+    src/users/users.cpp
+)
 target_link_libraries(auth_service jwt-cpp::jwt-cpp)
