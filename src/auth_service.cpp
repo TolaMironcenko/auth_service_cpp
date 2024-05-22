@@ -5,18 +5,19 @@
 #include <jwt-cpp/jwt.h>
 
 #include "auth/auth.hpp"
+#include "users/users.hpp"
 
 int main() {
     httplib::Server srv;
 
     srv.Post("/api/token", auth);
-
-    srv.Get("/api/users", [](const httplib::Request& request, httplib::Response& response) {
-        std::ifstream usersfile("users.json");
-        nlohmann::json usersdata = nlohmann::json::parse(usersfile);
-        usersfile.close();
-        response.set_content(usersdata.dump(), "application/json");
-    });
+    srv.Post("/api/user", get_user);
+    srv.Post("/api/users/all", get_all_users);
+    // srv.Post("/api/adduser", add_user);
+    // srv.Post("/api/changepassword", change_password);
+    // srv.Post("/api/deluser", del_user);
+    // srv.Post("/api/deluserassuperuser", del_user_as_superuser);
+    srv.Post("/api/access", user_access);
 
     srv.listen("localhost", 43243);
     return 0;
