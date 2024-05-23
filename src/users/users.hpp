@@ -15,5 +15,7 @@ void user_access(const httplib::Request& request, httplib::Response& response);
 void add_user(const httplib::Request& request, httplib::Response& response);
 // function for del user
 void del_user(const httplib::Request& request, httplib::Response& response);
+// function for change password for user
+void change_password(const httplib::Request& request, httplib::Response& response);
 
 #endif // USERS_HPP

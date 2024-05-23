@@ -14,9 +14,8 @@ int main() {
     srv.Post("/api/users/user", get_user);
     srv.Post("/api/users/all", get_all_users);
     srv.Post("/api/users/add", add_user);
-    // srv.Post("/api/changepassword", change_password);
+    srv.Post("/api/users/user/password/change", change_password);
     srv.Post("/api/users/del", del_user);
-    // srv.Post("/api/deluserassuperuser", del_user_as_superuser);
     srv.Post("/api/access", user_access);
 
     srv.listen("localhost", 43243);
