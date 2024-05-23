@@ -2,11 +2,11 @@
 
 // function for authorization users
 void auth(const httplib::Request& request, httplib::Response& response) {
-    if (request.body == "") {response.set_content("{\"needed\":\"[username,password]\"}", "application/json");return;}
+    if (request.body == "") {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
     nlohmann::json json_body = nlohmann::json::parse(request.body);
 
-    if (json_body["username"] == nullptr) {response.set_content("{\"needed\":\"[username,password]\"}", "application/json");return;}
-    if (json_body["password"] == nullptr) {response.set_content("{\"needed\":\"[username,password]\"}", "application/json");return;}
+    if (json_body["username"] == nullptr) {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
+    if (json_body["password"] == nullptr) {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
     const std::string request_username = json_body["username"];
     const std::string request_password = json_body["password"];
 

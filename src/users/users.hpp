@@ -11,5 +11,9 @@ void get_user(const httplib::Request& request, httplib::Response& response);
 void get_all_users(const httplib::Request& request, httplib::Response& response);
 // function for access or reject authorization
 void user_access(const httplib::Request& request, httplib::Response& response);
+// function for add user
+void add_user(const httplib::Request& request, httplib::Response& response);
+// function for del user
+void del_user(const httplib::Request& request, httplib::Response& response);
 
 #endif // USERS_HPP
