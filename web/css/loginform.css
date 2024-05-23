@@ -1,0 +1,55 @@
+.loginform {
+    position: absolute;
+    width: 0;
+    height: 0;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.loginform.active {
+    width: 100%;
+    height: 100%;
+    pointer-events: all;
+}
+
+.loginformbody {
+    padding: 10px;
+    background-color: gray;
+    border-radius: 10px;
+    box-shadow: -5px -5px 30px 30px gray;
+}
+
+.loginformheader {
+    text-align: center;
+}
+
+.loginforminputbody {
+    padding: 10px;
+}
+
+.loginforminput {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    transition: 0.3s;
+}
+
+.loginformbutton {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    background-color: rgb(59, 59, 197);
+    color: white;
+    transition: 0.3s;
+}
+
+.loginformbutton:hover {
+    background-color: rgb(151, 151, 241);
+}
