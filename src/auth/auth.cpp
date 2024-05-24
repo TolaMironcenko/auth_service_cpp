@@ -24,7 +24,7 @@ void auth(const httplib::Request& request, httplib::Response& response) {
 
     if (userid == "") {response.set_content("{\"status\":\"403\"}", "application/json");return;}
 
-    auto token = jwt::create()
+    std::string token = jwt::create()
         .set_type("JWT")
         .set_issuer("auth0")
         .set_payload_claim("userId", jwt::claim(userid))

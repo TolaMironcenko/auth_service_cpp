@@ -24,7 +24,7 @@ void change_password(const httplib::Request& request, httplib::Response& respons
 
     if (json_body["userid"] == nullptr) {old_password = json_body["old_password"];}
 
-    auto decoded_token = jwt::decode(json_body["token"]);
+    jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded_token = jwt::decode(json_body["token"]);
     std::string userid = "";
     for (auto& e : decoded_token.get_payload_json()) {
         if (e.first == "userId") {
@@ -42,7 +42,7 @@ void change_password(const httplib::Request& request, httplib::Response& respons
     if (json_body["userid"] != nullptr) {
         changepassuserid = json_body["userid"];
         nlohmann::json response_user_data = nullptr;
-        for (auto& user : all_users) {
+        for (nlohmann::json& user : all_users) {
             if (user["id"] == userid) {
                 response_user_data = user;
             }

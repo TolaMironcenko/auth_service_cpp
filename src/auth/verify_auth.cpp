@@ -4,10 +4,10 @@
 bool verify_auth(const std::string token) {
     try {
         // parse token
-        const auto decoded = jwt::decode(token);
+        const jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded = jwt::decode(token);
 
         // validate token
-        const auto verifier = jwt::verify()
+        const jwt::verifier<jwt::default_clock, jwt::traits::kazuho_picojson> verifier = jwt::verify()
                                 .allow_algorithm(jwt::algorithm::hs256{JWT_SECRET_KEY})
                                 .with_issuer("auth0");
 

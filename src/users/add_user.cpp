@@ -22,7 +22,7 @@ void add_user(const httplib::Request& request, httplib::Response& response) {
     if (json_body["username"] == nullptr) {response.set_content("{\"required\":\"[token,username,password]\",\"optional\":\"[group,is_superuser]\"}", "application/json");return;}
     if (json_body["password"] == nullptr) {response.set_content("{\"required\":\"[token,username,password]\",\"optional\":\"[group,is_superuser]\"}", "application/json");return;}
 
-    auto decoded_token = jwt::decode(json_body["token"]);
+    jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded_token = jwt::decode(json_body["token"]);
     std::string userid = "";
     for (auto& e : decoded_token.get_payload_json()) {
         if (e.first == "userId") {
@@ -37,7 +37,7 @@ void add_user(const httplib::Request& request, httplib::Response& response) {
     usersfile.close();
 
     nlohmann::json response_user_data = nullptr;
-    for (auto& user : all_users) {
+    for (nlohmann::json& user : all_users) {
         if (user["id"] == userid) {
             response_user_data = user;
         }
@@ -48,7 +48,7 @@ void add_user(const httplib::Request& request, httplib::Response& response) {
     const std::string username = json_body["username"];
     const std::string password = json_body["password"];
 
-    for (auto& user : all_users) {
+    for (nlohmann::json user : all_users) {
         if ((user["username"] == username)) {
             response.set_content("{\"status\":\"user already exists\"}", "application/json");return;
         }
