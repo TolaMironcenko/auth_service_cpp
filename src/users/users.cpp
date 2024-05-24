@@ -111,18 +111,18 @@ void add_user(const httplib::Request& request, httplib::Response& response) {
     const std::string password = json_body["password"];
 
     for (auto& user : all_users) {
-        if ((user["username"] == username) && (user["password"] == password)) {
+        if ((user["username"] == username)) {
             response.set_content("{\"status\":\"user already exists\"}", "application/json");return;
         }
     }
 
     std::stringstream new_user_data;
 
-    new_user_data << "{\"id\":\"" << get_random_string(ALPHABET, 50) << "\",\"username\":\"" << username << "\",\"password\":\"" << password << "\",\"group\":\"";
-    (json_body["group"] != nullptr) ? new_user_data << json_body["group"] : new_user_data << "users";
-    new_user_data << "\",\"is_superuser\":\"";
-    (json_body["is_superuser"]  != nullptr) ? new_user_data << json_body["is_superuser"] : new_user_data << "0";
-    new_user_data << "\"}";
+    new_user_data << "{\"id\":\"" << get_random_string(ALPHABET, 50) << "\",\"username\":\"" << username << "\",\"password\":\"" << password << "\",\"group\":";
+    (json_body["group"] != nullptr) ? new_user_data << json_body["group"] : new_user_data << "\"users\"";
+    new_user_data << ",\"is_superuser\":";
+    (json_body["is_superuser"]  != nullptr) ? new_user_data << json_body["is_superuser"] : new_user_data << "\"0\"";
+    new_user_data << "}";
     all_users.push_back(nlohmann::json::parse(new_user_data));
 
     std::ofstream usersfilew("users.json");

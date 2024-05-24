@@ -5,7 +5,7 @@ const get_all_users = async () => {
     }).then(data => data.json()).then(jsondata => jsondata)
     console.log(response)
     const alluserstablebody = document.querySelector('.alluserstablebody')
-    // alluserstablebody.innerHTML = ""
+    alluserstablebody.innerHTML = ""
     for (const user of response) {
         alluserstablebody.innerHTML += `
             <tr>
@@ -13,6 +13,8 @@ const get_all_users = async () => {
                 <th>${user.username}</th>
                 <th>${user.group}</th>
                 <th>${user.is_superuser}</th>
+                <th><button class="deleteuser thbutton" id="${user.id}">Delete</button></th>
+                <th><button class="changepassword thbutton" id="${user.id}">Change password</button></th>
             </tr>    
         `
     }

@@ -3,8 +3,6 @@ const loginformbody = document.querySelector('.loginformbody')
 const loginforminputusername = document.querySelector('#loginforminputusername')
 const loginforminputpassword = document.querySelector('#loginforminputpassword')
 const loginformbutton = document.querySelector('.loginformbutton')
-const message = document.querySelector('.message')
-const messagetext = document.querySelector('.messagetext')
 const exitbutton = document.querySelector('.exitbutton')
 
 // loginformbody.unbind('submit')
@@ -27,22 +25,10 @@ const login = async (username, password) => {
         body: `{"username":"${username}","password":"${password}"}`
     }).then(data => data.json()).then(jsondata => jsondata)
     if (response.status === "403") {
-        messagetext.innerHTML = "Неправильный логин или пароль"
-        message.classList.remove('success')
-        message.classList.add("error")
-        message.classList.add("active")
-        setTimeout(() => {
-            message.classList.remove('active')
-        }, 2000)
+        notification("Неправильный логин или пароль", "error")
     }
     if (response.token) {
-        messagetext.innerHTML = "Успешно"
-        message.classList.remove('error')
-        message.classList.add("success")
-        message.classList.add("active")
-        setTimeout(() => {
-            message.classList.remove('active')
-        }, 2000)
+        notification("Успешно", "success")
         loginform.classList.remove("active")
         localStorage.setItem("token", response.token)
         get_user_data(response.token)
@@ -56,6 +42,11 @@ const get_user_data = async (token) => {
     }).then(data => data.json()).then(jsondata => jsondata)
     if (response.is_superuser === "1") {
         get_all_users()
+    } else {
+        document.querySelector('.alluserstablebody').innerHTML = ""
+        loginform.classList.add("active")
+        notification("Вы не можете войти потому что не являетесь администратором", "error")
+        localStorage.clear()
     }
     if (response.id) {
         localStorage.setItem("userdata", JSON.stringify(response))
@@ -69,11 +60,5 @@ message.addEventListener('click', () => {
 exitbutton.addEventListener('click', () => {
     localStorage.clear()
     loginform.classList.add('active')
-    messagetext.innerHTML = 'Вы вышли'
-    message.classList.remove('error')
-    message.classList.add('.success')
-    message.classList.add('active')
-    setTimeout(() => {
-        message.classList.remove('active')
-    }, 2000)
+    notification('Вы вышли', "success")
 })

@@ -13,21 +13,72 @@
 <body>
     <div class="header">
         <button class="exitbutton headerbutton">Exit</button>
+        <button class="adduserbutton headerbutton">Adduser</button>
     </div>
 
-    <div class="loginform active">
-        <form class="loginformbody">
+    <div class="form loginform">
+        <form class="formbody loginformbody">
             <h1 class="loginformheader">Login</h1>
             <div class="loginforminputbody">
                 <div class="loginformlabel">Username</div>
                 <input type="text" required id="loginforminputusername" class="loginforminput">
             </div>
             <div class="loginforminputbody">
-                <div class="loginformlabel">Username</div>
+                <div class="loginformlabel">Passsword</div>
                 <input type="password" required id="loginforminputpassword" class="loginforminput">
             </div>
             <div class="loginforminputbody">
                 <button class="loginformbutton">login</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="form adduserform">
+        <form class="formbody adduserformbody">
+            <h1 class="loginformheader">Add User</h1>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Username</div>
+                <input type="text" required id="adduserformusername" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Password</div>
+                <input type="password" required id="adduserformpassword" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Group</div>
+                <input type="text" required id="adduserformgroup" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Is Superuser</div>
+                <input type="checkbox" id="adduserformissuperuser" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <button class="loginformbutton">Add</button>
+                <button class="canceladduser loginformbutton">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="form confirmform">
+        <div class="formbody confirmformbody">
+            <h1>Are you sure?</h1>
+            <div class="loginforminputbodyflex">
+                <button class="no loginformbutton">Cancel</button>
+                <button class="yes loginformbutton">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form changepasswordform">
+        <form class="formbody changepasswordformbody">
+            <h1 class="loginformheader">Change Password</h1>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">New password</div>
+                <input type="text" required id="changepasswordnewpassword" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <button class="loginformbutton">Change</button>
+                <button class="cancelchangepassword loginformbutton">Cancel</button>
             </div>
         </form>
     </div>
@@ -44,6 +95,8 @@
                 <th>username</th>
                 <th>group</th>
                 <th>is_superuser</th>
+                <th>delete</th>
+                <th>change password</th>
             </tr>
         </thead>
     </table>
@@ -52,9 +105,13 @@
             <tbody class="alluserstablebody"></tbody>
         </table>
     </div>
+    <script src="js/message.js"></script>
     <script src="js/routes.js"></script>
     <script src="js/window.js"></script>
     <script src="js/login.js"></script>
     <script src="js/get_all_users.js"></script>
+    <script src="js/add_user.js"></script>
+    <script src="js/del_user.js"></script>
+    <script src="js/change_password.js"></script>
 </body>
 </html>
