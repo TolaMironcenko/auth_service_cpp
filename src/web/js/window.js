@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 document.querySelector('.loginform').classList.add('active')
             }
+        }).catch((error) => {
+            notification(`Ошибка на сервере: ${error}`, "error")
         })
+        usernameheader.innerHTML = JSON.parse(localStorage.getItem('userdata')).username
     } else {
         document.querySelector('.loginform').classList.add('active')
     }

@@ -126,7 +126,7 @@ void add_user(const httplib::Request& request, httplib::Response& response) {
     all_users.push_back(nlohmann::json::parse(new_user_data));
 
     std::ofstream usersfilew("users.json");
-    usersfilew << all_users.dump();
+    usersfilew << all_users.dump(4);
     usersfilew.close();
 
     response.set_content("{\"status\":\"ok\"}", "application/json");
@@ -176,7 +176,7 @@ void del_user(const httplib::Request& request, httplib::Response& response) {
     }
     if (!found) {response.set_content("{\"status\":\"can't find this user\"}", "application/json");return;}
     std::ofstream usersfilew("users.json");
-    usersfilew << all_users.dump();
+    usersfilew << all_users.dump(4);
     usersfilew.close();
     response.set_content("{\"status\":\"ok\"}", "application/json");
 }
@@ -252,7 +252,7 @@ void change_password(const httplib::Request& request, httplib::Response& respons
     }
     if (!found) {response.set_content("{\"status\":\"can't find this user\"}", "application/json");return;}
     std::ofstream usersfilew("users.json");
-    usersfilew << all_users.dump();
+    usersfilew << all_users.dump(4);
     usersfilew.close();
     response.set_content("{\"status\":\"ok\"}", "application/json");
 }

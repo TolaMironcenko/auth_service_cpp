@@ -4,13 +4,11 @@ const loginforminputusername = document.querySelector('#loginforminputusername')
 const loginforminputpassword = document.querySelector('#loginforminputpassword')
 const loginformbutton = document.querySelector('.loginformbutton')
 const exitbutton = document.querySelector('.exitbutton')
-
-// loginformbody.unbind('submit')
+const usernameheader = document.querySelector('.usernameheader')
 
 loginformbody.addEventListener('submit', (e) => {
     e.preventDefault()
     login(loginforminputusername.value, loginforminputpassword.value)
-    // console.log(loginform, loginforminputpassword, loginforminputusername, loginformbutton)
 })
 
 const login = async (username, password) => {
@@ -23,7 +21,13 @@ const login = async (username, password) => {
         },
         // mode: 'no-cors',
         body: `{"username":"${username}","password":"${password}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        if (error.message === "Unexpected end of JSON input") {
+            notification(`Ошибка на сервере: Создайте файл users.json и запишите в него первого пользователя`, "error")
+        } else {
+            notification(`Ошибка на сервере: ${error}`, "error")
+        }
+    })
     if (response.status === "403") {
         notification("Неправильный логин или пароль", "error")
     }
@@ -32,6 +36,8 @@ const login = async (username, password) => {
         loginform.classList.remove("active")
         localStorage.setItem("token", response.token)
         get_user_data(response.token)
+        loginforminputusername.value = ""
+        loginforminputpassword.value = ""
     }
 }
 
@@ -39,9 +45,12 @@ const get_user_data = async (token) => {
     const response = await fetch(routes.user(), {
         method: "POST",
         body: `{"token":"${localStorage.getItem("token")}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        notification(`Ошибка на сервере: ${error}`, "error")
+    })
     if (response.is_superuser === "1") {
         get_all_users()
+        usernameheader.innerHTML = response.username
     } else {
         document.querySelector('.alluserstablebody').innerHTML = ""
         loginform.classList.add("active")

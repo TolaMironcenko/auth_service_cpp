@@ -20,10 +20,12 @@ changepasswordformbody.addEventListener('submit', async e => {
     const status = await fetch(routes.change_password_url(), {
         method: 'POST',
         body: `{"token":"${localStorage.getItem('token')}","userid":"${changepassuserid}","new_password":"${changepasswordnewpassword.value}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
-    console.log(status)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        notification(`Ошибка на сервере: ${error}`, "error")
+    })
     if (status.status === "ok") {
         notification("Пароль успешно изменен", "success")
         changepasswordform.classList.remove('active')
+        changepasswordnewpassword.value = ""
     }
 })

@@ -24,10 +24,12 @@ confirmformok.addEventListener('click', async () => {
     const status = await fetch(routes.deluser(), {
         method: 'POST',
         body: `{"token":"${localStorage.getItem('token')}","userid":"${useridtodelete}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
-
-    console.log(status)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        notification(`Ошибка на сервере: ${error}`, "error")
+    })
     if (status.status === "ok") {
+        confirmform.classList.remove('active')
+        get_all_users()
         notification("Пользователь успешно удален", "success")
     }
 })

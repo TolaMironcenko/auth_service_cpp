@@ -2,8 +2,9 @@ const get_all_users = async () => {
     const response = await fetch(routes.all_users(), {
         method: "POST",
         body: `{"token":"${localStorage.getItem("token")}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
-    console.log(response)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        notification(`Ошибка на сервере: ${error}`, "error")
+    })
     const alluserstablebody = document.querySelector('.alluserstablebody')
     alluserstablebody.innerHTML = ""
     for (const user of response) {

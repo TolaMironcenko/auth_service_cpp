@@ -24,16 +24,19 @@ adduserformbody.addEventListener('submit', async (e) => {
         group: groupinput.value,
         is_superuser: is_superuserinput.checked?"1":"0"
     }
-    console.log({...new_user, token: localStorage.getItem('token')})
     const status = await fetch(routes.adduser(), {
         method: 'POST',
         body: `{"token":"${localStorage.getItem('token')}","username":"${new_user.username}","password":"${new_user.password}","group":"${new_user.group}","is_superuser":"${new_user.is_superuser}"}`
-    }).then(data => data.json()).then(jsondata => jsondata)
-    console.log(status)
+    }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
+        notification(`Ошибка на сервере: ${error}`, "error")
+    })
     if (status.status === "ok") {
         adduserform.classList.remove('active')
         get_all_users()
         notification("Пользователь успешно добавлен", "success")
+        usernameinput.value = ""
+        passwordinput.value = ""
+        groupinput.value = ""
     }
     if (status.status === "user already exists") {
         notification("Пользователь с таким именем уже существует", "error")
