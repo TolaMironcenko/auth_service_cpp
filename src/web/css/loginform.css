@@ -1,17 +1,19 @@
 .loginform {
     position: absolute;
-    width: 0;
+    width: 100%;
     height: 0;
+    top: 0;
+    left: 0;
     display: grid;
     justify-items: center;
     align-items: center;
     overflow: hidden;
     pointer-events: none;
     transition: 0.3s;
+    background-color: black;
 }
 
 .loginform.active {
-    width: 100%;
     height: 100%;
     pointer-events: all;
 }

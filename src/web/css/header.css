@@ -1,0 +1,19 @@
+.header {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.headerbutton {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: gray;
+    transition: 0.3s;
+    color: white;
+}
+
+.headerbutton:hover {
+    background-color: rgb(83, 83, 83);
+}

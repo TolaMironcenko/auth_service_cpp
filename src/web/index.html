@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/loginform.css">
+    <link rel="stylesheet" href="css/message.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/userstable.css">
+    <title>admin</title>
+</head>
+<body>
+    <div class="header">
+        <button class="exitbutton headerbutton">Exit</button>
+    </div>
+
+    <div class="loginform active">
+        <form class="loginformbody">
+            <h1 class="loginformheader">Login</h1>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Username</div>
+                <input type="text" required id="loginforminputusername" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Username</div>
+                <input type="password" required id="loginforminputpassword" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <button class="loginformbutton">login</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="message">
+        <div class="messagetextbox">
+            <h3 class="messagetext"></h3>
+        </div>
+    </div>
+    <table class="headers">
+        <thead class="alluserstablehead">
+            <tr>
+                <th>id</th>
+                <th>username</th>
+                <th>group</th>
+                <th>is_superuser</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="table">
+        <table class="alluserstable">
+            <tbody class="alluserstablebody"></tbody>
+        </table>
+    </div>
+    <script src="js/routes.js"></script>
+    <script src="js/window.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/get_all_users.js"></script>
+</body>
+</html>

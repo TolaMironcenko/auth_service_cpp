@@ -18,6 +18,10 @@ int main() {
     srv.Post("/api/users/del", del_user);
     srv.Post("/api/access", user_access);
 
+    srv.set_mount_point("/admin", "../src/web");
+    srv.set_mount_point("/js", "../src/web/js");
+    srv.set_mount_point("/css", "../src/web/css");
+
     srv.listen("localhost", 43243);
     return 0;
 }
