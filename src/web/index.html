@@ -60,6 +60,32 @@
         </form>
     </div>
 
+    <div class="form changeuserform">
+        <form class="formbody changeuserformbody">
+            <h1 class="loginformheader">Change User Data</h1>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Username</div>
+                <input type="text" required id="changeuserformusername" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Password</div>
+                <input type="password" id="changeuserformpassword" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Group</div>
+                <input type="text" required id="changeuserformgroup" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <div class="loginformlabel">Is Superuser</div>
+                <input type="checkbox" id="changeuserformissuperuser" class="loginforminput">
+            </div>
+            <div class="loginforminputbody">
+                <button class="loginformbutton">Change</button>
+                <button class="cancelchangeuser loginformbutton">Cancel</button>
+            </div>
+        </form>
+    </div>
+
     <div class="form confirmform">
         <div class="formbody confirmformbody">
             <h1>Are you sure?</h1>
@@ -98,6 +124,7 @@
                 <th>is_superuser</th>
                 <th>delete</th>
                 <th>change password</th>
+                <th>change user data</th>
             </tr>
         </thead>
     </table>
@@ -114,5 +141,6 @@
     <script src="js/add_user.js"></script>
     <script src="js/del_user.js"></script>
     <script src="js/change_password.js"></script>
+    <script src="js/change_user.js"></script>
 </body>
 </html>

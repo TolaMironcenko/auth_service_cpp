@@ -16,6 +16,7 @@ const get_all_users = async () => {
                 <th>${user.is_superuser}</th>
                 <th><button class="deleteuser thbutton" id="${user.id}">Delete</button></th>
                 <th><button class="changepassword thbutton" id="${user.id}">Change password</button></th>
+                <th><button class="changeuser thbutton" id="${user.id}">Change user data</button></th>
             </tr>    
         `
     }

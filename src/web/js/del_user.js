@@ -13,6 +13,9 @@ userstablebody.addEventListener('click', e => {
     if (e.target.classList.contains('changepassword')) {
         change_password(e.target.id)
     }
+    if (e.target.classList.contains('changeuser')) {
+        change_user_data(e.target.id)
+    }
 })
 
 confirmformcancel.addEventListener('click', () => {

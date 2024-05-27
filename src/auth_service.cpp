@@ -17,6 +17,7 @@ int main() {
     srv.Post("/api/users/user/password/change", change_password);
     srv.Post("/api/users/del", delete_user);
     srv.Post("/api/access", user_access);
+    srv.Post("/api/users/user/change", change_user);
 
     srv.set_mount_point("/admin", "../src/web");
     srv.set_mount_point("/js", "../src/web/js");

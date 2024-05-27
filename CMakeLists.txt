@@ -19,5 +19,6 @@ add_executable(
     src/users/add_user.cpp
     src/users/get_all_users.cpp
     src/users/get_user.cpp
+    src/users/change_user.cpp
 )
 target_link_libraries(auth_service jwt-cpp::jwt-cpp)

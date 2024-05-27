@@ -8,5 +8,6 @@ const routes = {
     access: () => [host, prefix, 'access'].join('/'),
     adduser: () => [host, prefix, 'users', 'add'].join('/'),
     deluser: () => [host, prefix, 'users', 'del'].join('/'),
-    change_password_url: () => [host, prefix, 'users', 'user', 'password', 'change'].join('/')
+    change_password_url: () => [host, prefix, 'users', 'user', 'password', 'change'].join('/'),
+    change_user: () => [host, prefix, 'users', 'user', 'change'].join('/')
 }
