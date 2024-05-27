@@ -23,7 +23,7 @@ int main() {
     srv.Post("/api/access", user_access);
     srv.Post("/api/users/user/change", change_user);
 
-    srv.Options("/api/token", set_cors_headers);
+    srv.Options("/(.*)", set_cors_headers);
 
     srv.set_mount_point("/admin", "../src/web");
     srv.set_mount_point("/js", "../src/web/js");
