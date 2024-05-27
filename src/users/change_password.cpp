@@ -2,6 +2,7 @@
 
 // functtion for change password for user
 void change_password(const httplib::Request& request, httplib::Response& response) {
+    response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body == "") {response.set_content(
         "{\"required\":\"[token,old_password,new_password] or if you superuser [token,userid,new_password]\"}", 
         "application/json"

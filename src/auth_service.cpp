@@ -7,6 +7,10 @@
 #include "auth/auth.hpp"
 #include "users/users.hpp"
 
+#define CORS_ENABLE
+
+#include "security/cors.hpp"
+
 int main() {
     httplib::Server srv;
 
@@ -18,6 +22,8 @@ int main() {
     srv.Post("/api/users/del", delete_user);
     srv.Post("/api/access", user_access);
     srv.Post("/api/users/user/change", change_user);
+
+    srv.Options("/api/token", set_cors_headers);
 
     srv.set_mount_point("/admin", "../src/web");
     srv.set_mount_point("/js", "../src/web/js");

@@ -1,6 +1,7 @@
 #include "users.hpp"
 
 void change_user(const httplib::Request& request, httplib::Response& response) {
+    response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body == "") {response.set_content(
         "{\"required\":\"[token] or if you superuser [token,userid]\",\"optional\":\"[username,password,is_superuser,group]\"}", 
         "application/json"

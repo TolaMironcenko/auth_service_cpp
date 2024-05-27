@@ -20,5 +20,7 @@ add_executable(
     src/users/get_all_users.cpp
     src/users/get_user.cpp
     src/users/change_user.cpp
+
+    src/security/cors.cpp
 )
 target_link_libraries(auth_service jwt-cpp::jwt-cpp)

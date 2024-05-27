@@ -14,6 +14,7 @@ std::string get_random_string(const char *alphabet, int quantity) {
 
 // function for add user
 void add_user(const httplib::Request& request, httplib::Response& response) {
+    response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body == "") {response.set_content("{\"required\":\"[token,username,password]\",\"optional\":\"[group,is_superuser]\"}", "application/json");return;}
     nlohmann::json json_body = nlohmann::json::parse(request.body);
 
