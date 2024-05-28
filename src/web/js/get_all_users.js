@@ -10,7 +10,7 @@ const get_all_users = async () => {
     for (const user of response) {
         alluserstablebody.innerHTML += `
             <tr>
-                <th>${user.id}</th>
+                <th><p>${user.id}</p></th>
                 <th>${user.username}</th>
                 <th>${user.group}</th>
                 <th>${user.is_superuser}</th>

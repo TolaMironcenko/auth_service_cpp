@@ -28,8 +28,15 @@ th {
     border-radius: 10px;
     padding: 10px;
     width: 14%;
-    text-overflow: auto;
-    overflow-x: auto;
+    text-overflow: elipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+th>p {
+    width: 14vw;
+    height: 100%;
+    overflow: auto;
 }
 
 .thbutton {
