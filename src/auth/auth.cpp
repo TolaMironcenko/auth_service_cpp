@@ -1,7 +1,9 @@
 #include "auth.hpp"
+#include "../colors.h"
 
 // function for authorization users
 void auth(const httplib::Request& request, httplib::Response& response) {
+    std::cout << GREEN << request.path << RESET << "  " << request.method << std::endl;
     response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body == "") {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
     nlohmann::json json_body = nlohmann::json::parse(request.body);

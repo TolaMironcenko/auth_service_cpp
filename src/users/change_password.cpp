@@ -1,7 +1,9 @@
 #include "users.hpp"
+#include "../colors.h"
 
 // functtion for change password for user
 void change_password(const httplib::Request& request, httplib::Response& response) {
+    std::cout << GREEN << request.path << RESET << "  " << request.method << std::endl;
     response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body == "") {response.set_content(
         "{\"required\":\"[token,old_password,new_password] or if you superuser [token,userid,new_password]\"}", 
