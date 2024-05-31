@@ -1,5 +1,5 @@
 #ifndef CORS_HPP
-#define CCORS_HPP
+#define CORS_HPP
 
 #include <httplib.h>
 
