@@ -41,6 +41,7 @@
 
 .loginforminput {
     padding: 10px;
+    width: 100%;
     border-radius: 10px;
     border: none;
     transition: 0.3s;
