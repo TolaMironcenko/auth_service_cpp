@@ -1,9 +1,6 @@
 #include <iostream>
-#include <fstream>
 #include <httplib.h>
 #include <json.hpp>
-#include <jwt-cpp/jwt.h>
-
 #include "auth/auth.hpp"
 #include "users/users.hpp"
 #include "colors.h"
@@ -29,9 +26,9 @@ int main() {
     srv.set_mount_point("/admin", "../src/web");
     srv.set_mount_point("/js", "../src/web/js");
     srv.set_mount_point("/css", "../src/web/css");
-    
-    std::cout << GREEN << "Starting" << RESET << " server on [ " << YELLOW \
-        << "localhost" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
+
+    std::cout << GREEN << "Starting" << RESET << " server on [ " << YELLOW
+            << "localhost" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
     srv.listen("localhost", 43243);
     return 0;
 }

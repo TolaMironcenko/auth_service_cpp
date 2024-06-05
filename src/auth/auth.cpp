@@ -1,15 +1,26 @@
 #include "auth.hpp"
 #include "../colors.h"
+#include "../includes.hpp"
+#include <jwt-cpp/jwt.h>
 
 // function for authorization users
-void auth(const httplib::Request& request, httplib::Response& response) {
+void auth(const httplib::Request &request, httplib::Response &response) {
     std::cout << GREEN << request.path << RESET << "  " << request.method << std::endl;
     response.set_header("Access-Control-Allow-Origin", "*");
-    if (request.body == "") {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
+    if (request.body.empty()) {
+        response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        return;
+    }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
 
-    if (json_body["username"] == nullptr) {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
-    if (json_body["password"] == nullptr) {response.set_content("{\"required\":\"[username,password]\"}", "application/json");return;}
+    if (json_body["username"] == nullptr) {
+        response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        return;
+    }
+    if (json_body["password"] == nullptr) {
+        response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        return;
+    }
     const std::string request_username = json_body["username"];
     const std::string request_password = json_body["password"];
 
@@ -17,23 +28,25 @@ void auth(const httplib::Request& request, httplib::Response& response) {
     nlohmann::json all_users = nlohmann::json::parse(usersfile);
     usersfile.close();
 
-    std::string userid = "";
-    for (int i = 0; i < all_users.size(); i++) {
-        if ((all_users[i]["username"] == request_username) && (all_users[i]["password"] == request_password)) {
-            userid = all_users[i]["id"];
+    std::string userid;
+    for (nlohmann::basic_json<> user: all_users) {
+        if ((user["username"] == request_username) && (user["password"] == request_password)) {
+            userid = user["id"];
             break;
         }
     }
-
-    if (userid == "") {response.set_content("{\"status\":\"403\"}", "application/json");return;}
+    if (userid.empty()) {
+        response.set_content(STRING403, JSON_TYPE);
+        return;
+    }
 
     std::string token = jwt::create()
-        .set_type("JWT")
-        .set_issuer("auth0")
-        .set_payload_claim("userId", jwt::claim(userid))
-        .sign(jwt::algorithm::hs256{JWT_SECRET_KEY});
+            .set_type("JWT")
+            .set_issuer("auth0")
+            .set_payload_claim("userId", jwt::claim(userid))
+            .sign(jwt::algorithm::hs256{JWT_SECRET_KEY});
 
     std::stringstream response_json;
-    response_json << "{\"token\":\"" << token << "\"}";
-    response.set_content(response_json.str(), "application/json");
+    response_json << R"({"token":")" << token << "\"}";
+    response.set_content(response_json.str(), JSON_TYPE);
 }
