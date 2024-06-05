@@ -3,7 +3,7 @@ const cancelchangepassword = document.querySelector('.cancelchangepassword')
 const changepasswordformbody = document.querySelector('.changepasswordformbody')
 const changepasswordnewpassword = document.querySelector('#changepasswordnewpassword')
 
-var changepassuserid = ""
+let changepassuserid = "";
 
 const change_password = (userid) => {
     changepasswordform.classList.add('active')

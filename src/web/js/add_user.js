@@ -32,7 +32,7 @@ adduserformbody.addEventListener('submit', async (e) => {
     })
     if (status.status === "ok") {
         adduserform.classList.remove('active')
-        get_all_users()
+        await get_all_users()
         notification("Пользователь успешно добавлен", "success")
         usernameinput.value = ""
         passwordinput.value = ""

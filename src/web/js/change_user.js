@@ -6,8 +6,8 @@ const changeuserformgroup = document.querySelector('#changeuserformgroup')
 const changeuserformissuperuser = document.querySelector('#changeuserformissuperuser')
 const cancelchangeuser = document.querySelector(".cancelchangeuser")
 
-var changedatauserid = ""
-var userdata = ""
+let changedatauserid = "";
+let userdata = "";
 
 const change_user_data = async (userid) => {
     changeuserform.classList.add('active')
@@ -24,7 +24,7 @@ const change_user_data = async (userid) => {
     changeuserformusername.value = userdata.username
     changeuserformgroup.value = userdata.group
     console.log(changeuserformissuperuser.checked)
-    changeuserformissuperuser.checked = userdata.is_superuser === "1"?true:false
+    changeuserformissuperuser.checked = userdata.is_superuser === "1"
 }
 
 cancelchangeuser.addEventListener('click', (e) => {
@@ -34,13 +34,13 @@ cancelchangeuser.addEventListener('click', (e) => {
 
 changeuserformbody.addEventListener('submit', async (e) => {
     e.preventDefault()
-    var request = {
+    let request = {
         token: localStorage.getItem('token'),
         userid: changedatauserid,
         username: changeuserformusername.value,
-        is_superuser: changeuserformissuperuser.checked?"1":"0",
+        is_superuser: changeuserformissuperuser.checked ? "1" : "0",
         group: changeuserformgroup.value
-    }
+    };
     if (changeuserformpassword.value !== "") {request = {...request, "password": changeuserformpassword.value}}
     const status = await fetch(routes.change_user(), {
         method: 'POST',
@@ -52,6 +52,6 @@ changeuserformbody.addEventListener('submit', async (e) => {
     if (status.status === "ok") {
         notification("Данные пользователя успешно изменены", "success")
         changeuserform.classList.remove('active')
-        get_all_users()
+        await get_all_users()
     }
 })

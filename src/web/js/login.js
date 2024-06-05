@@ -2,7 +2,6 @@ const loginform = document.querySelector('.loginform')
 const loginformbody = document.querySelector('.loginformbody')
 const loginforminputusername = document.querySelector('#loginforminputusername')
 const loginforminputpassword = document.querySelector('#loginforminputpassword')
-const loginformbutton = document.querySelector('.loginformbutton')
 const exitbutton = document.querySelector('.exitbutton')
 const usernameheader = document.querySelector('.usernameheader')
 
@@ -35,13 +34,13 @@ const login = async (username, password) => {
         notification("Успешно", "success")
         loginform.classList.remove("active")
         localStorage.setItem("token", response.token)
-        get_user_data(response.token)
+        await get_user_data()
         loginforminputusername.value = ""
         loginforminputpassword.value = ""
     }
 }
 
-const get_user_data = async (token) => {
+const get_user_data = async () => {
     const response = await fetch(routes.user(), {
         method: "POST",
         body: `{"token":"${localStorage.getItem("token")}"}`
@@ -49,7 +48,7 @@ const get_user_data = async (token) => {
         notification(`Ошибка на сервере: ${error}`, "error")
     })
     if (response.is_superuser === "1") {
-        get_all_users()
+        await get_all_users()
         usernameheader.innerHTML = response.username
     } else {
         document.querySelector('.alluserstablebody').innerHTML = ""

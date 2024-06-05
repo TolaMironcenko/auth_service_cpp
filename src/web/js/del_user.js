@@ -3,7 +3,7 @@ const confirmform = document.querySelector('.confirmform')
 const confirmformcancel = document.querySelector('.no')
 const confirmformok = document.querySelector('.yes')
 
-var useridtodelete = ""
+let useridtodelete = "";
 
 userstablebody.addEventListener('click', e => {
     if (e.target.classList.contains('deleteuser')) {
@@ -32,7 +32,7 @@ confirmformok.addEventListener('click', async () => {
     })
     if (status.status === "ok") {
         confirmform.classList.remove('active')
-        get_all_users()
+        await get_all_users()
         notification("Пользователь успешно удален", "success")
     }
 })
