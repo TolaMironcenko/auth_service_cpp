@@ -31,7 +31,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
         return;
     }
     if (json_body["new_password"] == nullptr) {
-        response.set_content(R"({"required":"[token] or if you superuser [token,userid]"})",
+        response.set_content(CHANGE_PASSWORD_REQUIRED_STRING,
                              JSON_TYPE);
         return;
     }
@@ -46,13 +46,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
     if (json_body["userid"] == nullptr) { old_password = json_body["old_password"]; }
 
     jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded_token = jwt::decode(json_body["token"]);
-    std::string userid;
-    for (std::pair<const std::string, picojson::value> &e: decoded_token.get_payload_json()) {
-        if (e.first == "userId") {
-            userid = e.second.to_str();
-            break;
-        }
-    }
+    std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
         return;
