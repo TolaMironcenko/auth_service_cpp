@@ -25,3 +25,5 @@ add_executable(
 )
 
 target_link_libraries(auth_service jwt-cpp::jwt-cpp)
+
+install(TARGETS auth_service DESTINATION bin)
