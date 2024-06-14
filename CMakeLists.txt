@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./src/libs/)
 
-find_package(jwt-cpp REQUIRED)
+add_subdirectory(./src/libs/jwt-cpp-0.7.0)
 
 add_executable(
     auth_service 
@@ -23,4 +23,5 @@ add_executable(
 
     src/security/cors.cpp
 )
+
 target_link_libraries(auth_service jwt-cpp::jwt-cpp)
