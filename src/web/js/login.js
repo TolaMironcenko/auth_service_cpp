@@ -5,6 +5,10 @@ const loginforminputpassword = document.querySelector('#loginforminputpassword')
 const exitbutton = document.querySelector('.exitbutton')
 const usernameheader = document.querySelector('.usernameheader')
 
+if (localStorage.getItem("token") === null) {
+    loginform.classList.add("active")
+}
+
 loginformbody.addEventListener('submit', (e) => {
     e.preventDefault()
     login(loginforminputusername.value, loginforminputpassword.value)
