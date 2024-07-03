@@ -2,6 +2,7 @@
 #include "../colors.h"
 #include "../includes.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 // function for authorization users
 void auth(const httplib::Request &request, httplib::Response &response) {
@@ -9,16 +10,19 @@ void auth(const httplib::Request &request, httplib::Response &response) {
     response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body.empty()) {
         response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        syslog(LOG_ERR, "no body in auth request");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
 
     if (json_body["username"] == nullptr) {
         response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        syslog(LOG_ERR, "no username in auth request");
         return;
     }
     if (json_body["password"] == nullptr) {
         response.set_content(AUTH_REQUIRED_STRING, JSON_TYPE);
+        syslog(LOG_ERR, "no password in auth request");
         return;
     }
     const std::string request_username = json_body["username"];
@@ -37,6 +41,7 @@ void auth(const httplib::Request &request, httplib::Response &response) {
     }
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "auth request rejected");
         return;
     }
 
@@ -48,5 +53,6 @@ void auth(const httplib::Request &request, httplib::Response &response) {
 
     std::stringstream response_json;
     response_json << R"({"token":")" << token << "\"}";
+    syslog(LOG_INFO, "auth request success");
     response.set_content(response_json.str(), JSON_TYPE);
 }

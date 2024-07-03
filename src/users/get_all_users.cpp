@@ -3,6 +3,7 @@
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 // function for get all users data without password
 void get_all_users(const httplib::Request &request, httplib::Response &response) {
@@ -10,22 +11,26 @@ void get_all_users(const httplib::Request &request, httplib::Response &response)
     response.set_header("Access-Control-Allow-Origin", "*");
     if (request.body.empty()) {
         response.set_content(ACCESS_REQUIRED_STRING, JSON_TYPE);
+        syslog(LOG_ERR, "get all users request body is empty");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
 
     if (json_body["token"] == nullptr) {
         response.set_content(ACCESS_REQUIRED_STRING, JSON_TYPE);
+        syslog(LOG_ERR, "no token in get all users");
         return;
     }
     if (!verify_auth(json_body["token"])) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in get all user request");
         return;
     }
     jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded_token = jwt::decode(json_body["token"]);
     std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in get all user request");
         return;
     }
     std::ifstream usersfile("users.json");
@@ -40,10 +45,12 @@ void get_all_users(const httplib::Request &request, httplib::Response &response)
     }
     if (response_user_data == nullptr) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in get all user request");
         return;
     }
     if (response_user_data["is_superuser"] != "1") {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in get all user request");
         return;
     }
     response.set_content(all_users.dump(), JSON_TYPE);

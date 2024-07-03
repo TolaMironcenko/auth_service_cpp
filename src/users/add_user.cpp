@@ -24,6 +24,7 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     if (request.body.empty()) {
         response.set_content(ADD_USER_REQUIRED_STRING,
                              JSON_TYPE);
+        syslog(LOG_ERR, "add user request body is empty");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
@@ -31,20 +32,24 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     if (json_body["token"] == nullptr) {
         response.set_content(ADD_USER_REQUIRED_STRING,
                              JSON_TYPE);
+        syslog(LOG_ERR, "no token in add user request");
         return;
     }
     if (!verify_auth(json_body["token"])) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in add user request");
         return;
     }
     if (json_body["username"] == nullptr) {
         response.set_content(ADD_USER_REQUIRED_STRING,
                              JSON_TYPE);
+        syslog(LOG_ERR, "no username in add user request");
         return;
     }
     if (json_body["password"] == nullptr) {
         response.set_content(ADD_USER_REQUIRED_STRING,
                              JSON_TYPE);
+        syslog(LOG_ERR, "no password in add user request");
         return;
     }
 
@@ -52,6 +57,7 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in add user request");
         return;
     }
 
@@ -67,10 +73,12 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     }
     if (response_user_data == nullptr) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in add user request");
         return;
     }
     if (response_user_data["is_superuser"] != "1") {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in add user request");
         return;
     }
 
@@ -80,6 +88,7 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     for (nlohmann::json user: all_users) {
         if ((user["username"] == username)) {
             response.set_content(R"({"status":"user already exists"})", JSON_TYPE);
+            syslog(LOG_ERR, "user already exists in add user request");
             return;
         }
     }

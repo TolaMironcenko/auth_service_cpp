@@ -14,6 +14,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
             CHANGE_PASSWORD_REQUIRED_STRING,
             JSON_TYPE
         );
+        syslog(LOG_ERR, "body is empty in change password request");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
@@ -23,21 +24,25 @@ void change_password(const httplib::Request &request, httplib::Response &respons
             CHANGE_PASSWORD_REQUIRED_STRING,
             JSON_TYPE
         );
+        syslog(LOG_ERR, "no token in change password request");
         return;
     }
     if ((json_body["userid"] == nullptr) && (json_body["old_password"] == nullptr)) {
         response.set_content(
             CHANGE_PASSWORD_REQUIRED_STRING,
             JSON_TYPE);
+        syslog(LOG_ERR, "no old password is change password request");
         return;
     }
     if (json_body["new_password"] == nullptr) {
         response.set_content(CHANGE_PASSWORD_REQUIRED_STRING,
                              JSON_TYPE);
+        syslog(LOG_ERR, "no new password in change password request");
         return;
     }
     if (!verify_auth(json_body["token"])) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in change password request");
         return;
     }
 
@@ -50,6 +55,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
     std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in change password request");
         return;
     }
 
@@ -68,10 +74,12 @@ void change_password(const httplib::Request &request, httplib::Response &respons
         }
         if (response_user_data == nullptr) {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in change password request");
             return;
         }
         if (response_user_data["is_superuser"] != "1") {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in change password request");
             return;
         }
     }
@@ -93,12 +101,16 @@ void change_password(const httplib::Request &request, httplib::Response &respons
             if ((all_user["id"] == changepassuserid) && (all_user["password"] == old_password)) {
                 all_user["password"] = new_password;
                 found = true;
+                std::stringstream syslogstring;
+                syslogstring << "password changed for user ["  << all_user["username"] << "]";
+                syslog(LOG_INFO, syslogstring.str().c_str());
                 break;
             }
         }
     }
     if (!found) {
         response.set_content(R"({"status":"can't find this user"})", JSON_TYPE);
+        syslog(LOG_ERR, "can't find this user in change password request");
         return;
     }
     std::ofstream usersfilew("users.json");

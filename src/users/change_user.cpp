@@ -13,6 +13,7 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
         response.set_content(
             CHANGE_USER_REQUIRED_STRING,
             JSON_TYPE);
+        syslog(LOG_ERR, "change user request body is empty");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
@@ -22,16 +23,19 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
             CHANGE_USER_REQUIRED_STRING,
             JSON_TYPE
         );
+        syslog(LOG_ERR, "no token in change user request");
         return;
     }
     if ((json_body["userid"] == nullptr) && (json_body["old_password"] == nullptr)) {
         response.set_content(
             CHANGE_USER_REQUIRED_STRING,
             JSON_TYPE);
+        syslog(LOG_ERR, "no old_password in change user request");
         return;
     }
     if (!verify_auth(json_body["token"])) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in change user request");
         return;
     }
 
@@ -39,6 +43,7 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
     std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in change user request");
         return;
     }
 
@@ -57,10 +62,12 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
         }
         if (response_user_data == nullptr) {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in change user request");
             return;
         }
         if (response_user_data["is_superuser"] != "1") {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in change user request");
             return;
         }
     }
@@ -85,12 +92,16 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
             if ((all_user["id"] == changeusruserid)) {
                 if (json_body["username"] != nullptr) { all_user["username"] = json_body["username"]; }
                 found = true;
+                std::stringstream syslogstring;
+                syslogstring << "userdata changed for user ["  << all_user["username"] << "]";
+                syslog(LOG_INFO, syslogstring.str().c_str());
                 break;
             }
         }
     }
     if (!found) {
         response.set_content(R"({"status":"can't find this user"})", JSON_TYPE);
+        syslog(LOG_ERR, "can't find this user in change user request");
         return;
     }
     std::ofstream usersfilew("users.json");

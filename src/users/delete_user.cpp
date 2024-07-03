@@ -13,6 +13,7 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
         response.set_content(
             DELETE_USER_REQUIRED_STRING,
             JSON_TYPE);
+        syslog(LOG_ERR, "delete user request body is empty");
         return;
     }
     nlohmann::json json_body = nlohmann::json::parse(request.body);
@@ -21,10 +22,12 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
         response.set_content(
             DELETE_USER_REQUIRED_STRING,
             JSON_TYPE);
+        syslog(LOG_ERR, "no token in delete user request");
         return;
     }
     if (!verify_auth(json_body["token"])) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in delete user request");
         return;
     }
 
@@ -32,6 +35,7 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
     std::string userid = decoded_token.get_payload_json()["userId"].to_str();
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
+        syslog(LOG_ERR, "access reject in delete user request");
         return;
     }
 
@@ -50,10 +54,12 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
         }
         if (response_user_data == nullptr) {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in delete user request");
             return;
         }
         if (response_user_data["is_superuser"] != "1") {
             response.set_content(STRING403, JSON_TYPE);
+            syslog(LOG_ERR, "access reject in delete user request");
             return;
         }
     }
@@ -71,6 +77,7 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
     }
     if (!found) {
         response.set_content(R"({"status":"can't find this user"})", JSON_TYPE);
+        syslog(LOG_ERR, "can't find this user in delete user request");
         return;
     }
     std::ofstream usersfilew("users.json");
