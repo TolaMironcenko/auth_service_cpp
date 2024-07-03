@@ -3,6 +3,7 @@
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 // function for change user data
 void change_user(const httplib::Request &request, httplib::Response &response) {
@@ -73,6 +74,9 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
                 if (json_body["group"] != nullptr) { all_user["group"] = json_body["group"]; }
                 if (json_body["is_superuser"] != nullptr) { all_user["is_superuser"] = json_body["is_superuser"]; }
                 found = true;
+                std::stringstream syslogstring;
+                syslogstring << "userdata changed for user ["  << all_user["username"] << "]";
+                syslog(LOG_INFO, syslogstring.str().c_str());
                 break;
             }
         }

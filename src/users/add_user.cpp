@@ -3,6 +3,7 @@
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 #define ALPHABET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -96,6 +97,8 @@ void add_user(const httplib::Request &request, httplib::Response &response) {
     std::ofstream usersfilew("users.json");
     usersfilew << all_users.dump(4);
     usersfilew.close();
-
+    std::stringstream syslogstring;
+    syslogstring << "user added ["  << username << "]";
+    syslog(LOG_INFO, syslogstring.str().c_str());
     response.set_content(R"({"status":"ok"})", JSON_TYPE);
 }

@@ -3,6 +3,7 @@
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 // functtion for change password for user
 void change_password(const httplib::Request &request, httplib::Response &response) {
@@ -81,6 +82,9 @@ void change_password(const httplib::Request &request, httplib::Response &respons
             if ((all_user["id"] == changepassuserid)) {
                 all_user["password"] = new_password;
                 found = true;
+                std::stringstream syslogstring;
+                syslogstring << "password changed for user ["  << all_user["username"] << "]";
+                syslog(LOG_INFO, syslogstring.str().c_str());
                 break;
             }
         }

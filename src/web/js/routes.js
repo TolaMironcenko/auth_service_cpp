@@ -1,4 +1,4 @@
-const host = 'http://localhost:43243'
+const host = 'http://192.168.122.76:43243'
 const prefix = 'api'
 
 const routes = {

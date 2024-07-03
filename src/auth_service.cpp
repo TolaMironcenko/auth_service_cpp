@@ -4,6 +4,7 @@
 #include "auth/auth.hpp"
 #include "users/users.hpp"
 #include "colors.h"
+#include <syslog.h>
 
 #define CORS_ENABLE
 
@@ -28,7 +29,8 @@ int main() {
     srv.set_mount_point("/auth/css", "../src/web/css");
 
     std::cout << GREEN << "Starting" << RESET << " server on [ " << YELLOW
-            << "localhost" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
-    srv.listen("localhost", 43243);
+            << "0.0.0.0" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
+    syslog(LOG_INFO, "Authorization service started");
+    srv.listen("0.0.0.0", 43243);
     return 0;
 }

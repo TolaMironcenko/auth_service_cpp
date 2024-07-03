@@ -3,6 +3,7 @@
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
 #include <jwt-cpp/jwt.h>
+#include <syslog.h>
 
 // function for delete user
 void delete_user(const httplib::Request &request, httplib::Response &response) {
@@ -62,6 +63,9 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
         if (all_users[i]["id"] == deluserid) {
             all_users.erase(i);
             found = true;
+            std::stringstream syslogstring;
+            syslogstring << "user deleted ["  << all_users[i]["username"] << "]";
+            syslog(LOG_INFO, syslogstring.str().c_str());
             break;
         }
     }
