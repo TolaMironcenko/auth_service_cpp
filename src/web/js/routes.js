@@ -1,4 +1,4 @@
-const host = 'http://192.168.122.76:43243'
+const host = window.location.origin
 const prefix = 'api'
 
 const routes = {
