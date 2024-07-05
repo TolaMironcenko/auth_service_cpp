@@ -12,7 +12,6 @@ let userdata = "";
 const change_user_data = async (userid) => {
     changeuserform.classList.add('active')
     changedatauserid = userid
-    console.log(userid)
     const all_users = await fetch(routes.all_users(), {
         method: 'POST',
         body: `{"token":"${localStorage.getItem('token')}"}`
@@ -20,10 +19,8 @@ const change_user_data = async (userid) => {
         notification(`Ошибка на сервере: ${error}`, "error")
     })
     userdata = all_users.find(usr => usr.id === userid)
-    console.log(userdata)
     changeuserformusername.value = userdata.username
     changeuserformgroup.value = userdata.group
-    console.log(changeuserformissuperuser.checked)
     changeuserformissuperuser.checked = userdata.is_superuser === "1"
 }
 
@@ -48,7 +45,6 @@ changeuserformbody.addEventListener('submit', async (e) => {
     }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
         notification(`Ошибка на сервере: ${error}`, "error")
     })
-    console.log(status)
     if (status.status === "ok") {
         notification("Данные пользователя успешно изменены", "success")
         changeuserform.classList.remove('active')
