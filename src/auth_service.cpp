@@ -29,7 +29,7 @@ int main() {
     srv.set_mount_point("/auth/css", "../src/web/css");
 
     std::cout << GREEN << "Starting" << RESET << " server on [ " << YELLOW
-            << "127.0.0.1" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
+            << "0.0.0.0" << RESET << ":" << CYAN << "43243" << RESET << " ]" << std::endl;
     syslog(LOG_INFO, "Authorization service started");
     srv.listen("0.0.0.0", 43243);
     return 0;
