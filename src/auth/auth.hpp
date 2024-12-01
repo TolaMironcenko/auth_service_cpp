@@ -1,5 +1,4 @@
-#ifndef AUTH_HPP
-#define AUTH_HPP
+#pragma once
 
 #include <httplib.h>
 #include <json.hpp>
@@ -9,5 +8,3 @@ void auth(const httplib::Request &request, httplib::Response &response);
 
 // function for verify tokens
 bool verify_auth(const std::string &token);
-
-#endif // AUTH_HPP

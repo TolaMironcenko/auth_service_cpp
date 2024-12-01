@@ -1,10 +1,9 @@
 cmake_minimum_required (VERSION 2.6)
 project(auth_service)
+set(CMAKE_CXX_COMPILER /home/tola/Documents/linux/orangepipc/buildroot-2024.08.2/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-g++)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./src/libs/)
-
-add_subdirectory(./src/libs/jwt-cpp-0.7.0)
 
 add_executable(
     auth_service 
@@ -24,6 +23,6 @@ add_executable(
     src/security/cors.cpp
 )
 
-target_link_libraries(auth_service jwt-cpp::jwt-cpp)
+target_link_libraries(auth_service ssl crypto)
 
 install(TARGETS auth_service DESTINATION bin)

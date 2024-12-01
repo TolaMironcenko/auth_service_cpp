@@ -2,7 +2,7 @@
 #include "../colors.h"
 #include "../includes.hpp"
 #include "../auth/auth.hpp"
-#include <jwt-cpp/jwt.h>
+#include <jwt.hpp>
 #include <syslog.h>
 
 // functtion for change password for user
@@ -51,8 +51,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
 
     if (json_body["userid"] == nullptr) { old_password = json_body["old_password"]; }
 
-    jwt::decoded_jwt<jwt::traits::kazuho_picojson> decoded_token = jwt::decode(json_body["token"]);
-    std::string userid = decoded_token.get_payload_json()["userId"].to_str();
+    std::string userid = JWT::get_payload(json_body["token"], JWT_DEFAULT_SECRET)["userId"];
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
         syslog(LOG_ERR, "access reject in change password request");

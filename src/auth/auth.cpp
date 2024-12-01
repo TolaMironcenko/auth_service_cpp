@@ -1,7 +1,7 @@
 #include "auth.hpp"
 #include "../colors.h"
 #include "../includes.hpp"
-#include <jwt-cpp/jwt.h>
+#include <jwt.hpp>
 #include <syslog.h>
 
 // function for authorization users
@@ -44,15 +44,20 @@ void auth(const httplib::Request &request, httplib::Response &response) {
         syslog(LOG_ERR, "auth request rejected");
         return;
     }
+    
+    nlohmann::json headers = {
+        {"alg", "HS256"},
+        {"typ", "JWT"}
+    };
 
-    std::string token = jwt::create()
-            .set_type("JWT")
-            .set_issuer("auth0")
-            .set_payload_claim("userId", jwt::claim(userid))
-            .sign(jwt::algorithm::hs256{JWT_SECRET_KEY});
+    nlohmann::json payload {
+        {"userId", userid}
+    };
+
+    std::string token = JWT::createJWT(headers.dump(), payload.dump(), JWT_DEFAULT_SECRET);
 
     std::stringstream response_json;
-    response_json << R"({"token":")" << token << "\"}";
+    response_json << R"({"token":")" << token.c_str() << "\"}";
     syslog(LOG_INFO, "auth request success");
     response.set_content(response_json.str(), JSON_TYPE);
 }
