@@ -1,8 +1,9 @@
-#include "users.hpp"
-#include "../colors.h"
-#include "../includes.hpp"
-#include "../auth/auth.hpp"
+#include <users/users.hpp>
+#include <colors.h>
+#include <includes.hpp>
+#include <auth/auth.hpp>
 #include <syslog.h>
+#include <json.hpp>
 
 // function for access or reject authorization
 void user_access(const httplib::Request &request, httplib::Response &response) {

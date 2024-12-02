@@ -1,7 +1,6 @@
 #pragma once
 
 #include <httplib.h>
-#include <json.hpp>
 
 // function for authorization users
 void auth(const httplib::Request &request, httplib::Response &response);

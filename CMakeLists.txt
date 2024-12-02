@@ -1,9 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 project(auth_service)
-set(CMAKE_CXX_COMPILER /home/tola/Documents/linux/orangepipc/buildroot-2024.08.2/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-g++)
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(./src/libs/)
+include_directories(./src/libs/ ./src)
 
 add_executable(
     auth_service 
@@ -21,6 +20,8 @@ add_executable(
     src/users/change_user.cpp
 
     src/security/cors.cpp
+
+    src/AuthService/AuthService.cpp
 )
 
 target_link_libraries(auth_service ssl crypto)

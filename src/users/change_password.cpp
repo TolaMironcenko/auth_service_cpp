@@ -1,7 +1,7 @@
-#include "users.hpp"
-#include "../colors.h"
-#include "../includes.hpp"
-#include "../auth/auth.hpp"
+#include <users/users.hpp>
+#include <colors.h>
+#include <includes.hpp>
+#include <auth/auth.hpp>
 #include <jwt.hpp>
 #include <syslog.h>
 
@@ -51,7 +51,7 @@ void change_password(const httplib::Request &request, httplib::Response &respons
 
     if (json_body["userid"] == nullptr) { old_password = json_body["old_password"]; }
 
-    std::string userid = JWT::get_payload(json_body["token"], JWT_DEFAULT_SECRET)["userId"];
+    std::string userid = JWT::get_payload(json_body["token"], JWT_SECRET_KEY)["userId"];
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
         syslog(LOG_ERR, "access reject in change password request");

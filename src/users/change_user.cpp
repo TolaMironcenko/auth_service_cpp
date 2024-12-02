@@ -1,7 +1,7 @@
-#include "users.hpp"
-#include "../colors.h"
-#include "../includes.hpp"
-#include "../auth/auth.hpp"
+#include <users/users.hpp>
+#include <colors.h>
+#include <includes.hpp>
+#include <auth/auth.hpp>
 #include <jwt.hpp>
 #include <syslog.h>
 
@@ -39,7 +39,7 @@ void change_user(const httplib::Request &request, httplib::Response &response) {
         return;
     }
 
-    std::string userid = JWT::get_payload(json_body["token"], JWT_DEFAULT_SECRET)["userId"];
+    std::string userid = JWT::get_payload(json_body["token"], JWT_SECRET_KEY)["userId"];
     if (userid.empty()) {
         response.set_content(STRING403, JSON_TYPE);
         syslog(LOG_ERR, "access reject in change user request");

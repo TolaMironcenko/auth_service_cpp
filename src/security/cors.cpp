@@ -1,5 +1,5 @@
-#include "cors.hpp"
-#include "../colors.h"
+#include <security/cors.hpp>
+#include <colors.h>
 
 void set_cors_headers(const httplib::Request &request, httplib::Response &response) {
     std::cout << GREEN << request.path << "  " << std::endl;

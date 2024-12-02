@@ -1,6 +1,7 @@
-#include "auth.hpp"
-#include "../colors.h"
-#include "../includes.hpp"
+#include <auth/auth.hpp>
+#include <json.hpp>
+#include <colors.h>
+#include <includes.hpp>
 #include <jwt.hpp>
 #include <syslog.h>
 
@@ -54,7 +55,7 @@ void auth(const httplib::Request &request, httplib::Response &response) {
         {"userId", userid}
     };
 
-    std::string token = JWT::createJWT(headers.dump(), payload.dump(), JWT_DEFAULT_SECRET);
+    std::string token = JWT::createJWT(headers.dump(), payload.dump(), JWT_SECRET_KEY);
 
     std::stringstream response_json;
     response_json << R"({"token":")" << token.c_str() << "\"}";
