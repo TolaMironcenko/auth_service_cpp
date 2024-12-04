@@ -64,7 +64,7 @@ void delete_user(const httplib::Request &request, httplib::Response &response) {
     }
 
     bool found = false;
-    for (int i = 0; i < all_users.size(); i++) {
+    for (size_t i = 0; i < all_users.size(); i++) {
         if (all_users[i]["id"] == deluserid) {
             std::stringstream syslogstring;
             syslogstring << "user deleted ["  << all_users[i]["username"] << "]";
