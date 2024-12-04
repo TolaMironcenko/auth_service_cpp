@@ -18,9 +18,10 @@ canceladduserbutton.addEventListener('click', (e) => {
 
 adduserformbody.addEventListener('submit', async (e) => {
     e.preventDefault()
+    const hashedpassword = await hashPassword(passwordinput.value)
     const new_user = {
         username: usernameinput.value,
-        password: passwordinput.value,
+        password: hashedpassword,
         group: groupinput.value,
         is_superuser: is_superuserinput.checked?"1":"0"
     }

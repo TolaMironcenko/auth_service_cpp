@@ -17,9 +17,10 @@ cancelchangepassword.addEventListener('click', e => {
 
 changepasswordformbody.addEventListener('submit', async e => {
     e.preventDefault()
+    const hashedpassword = await hashPassword(changepasswordnewpassword.value)
     const status = await fetch(routes.change_password_url(), {
         method: 'POST',
-        body: `{"token":"${localStorage.getItem('token')}","userid":"${changepassuserid}","new_password":"${changepasswordnewpassword.value}"}`
+        body: `{"token":"${localStorage.getItem('token')}","userid":"${changepassuserid}","new_password":"${hashedpassword}"}`
     }).then(data => data.json()).then(jsondata => jsondata).catch((error) => {
         notification(`Ошибка на сервере: ${error}`, "error")
     })

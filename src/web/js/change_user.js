@@ -38,7 +38,10 @@ changeuserformbody.addEventListener('submit', async (e) => {
         is_superuser: changeuserformissuperuser.checked ? "1" : "0",
         group: changeuserformgroup.value
     };
-    if (changeuserformpassword.value !== "") {request = {...request, "password": changeuserformpassword.value}}
+    if (changeuserformpassword.value !== "") {
+        const hashedpassword = await hashPassword(changeuserformpassword.value)
+        request = {...request, "password": hashedpassword}
+    }
     const status = await fetch(routes.change_user(), {
         method: 'POST',
         body: JSON.stringify(request)
