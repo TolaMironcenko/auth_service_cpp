@@ -15,8 +15,15 @@
 #define JWT_DEFAULT_SECRET "secret"
 
 namespace JWT {
+    inline std::string base64_encode(const unsigned char *input, int length);
+    inline std::string base64_decode(const std::string &in);
+    inline std::string createJWT(const std::string &header_json, const std::string &payload_json, const std::string &secret);
+    inline std::string hmacSha256(const std::string &key, const std::string &data);
+    inline bool verifyJWT(const std::string &token, const std::string &secret);
+    inline nlohmann::json get_payload(std::string token, std::string secret);
+    inline nlohmann::json get_header(std::string token, std::string secret);
     // Function to Base64 Encode
-    static std::string base64_encode(const unsigned char *input, int length) {
+    inline std::string base64_encode(const unsigned char *input, int length) {
         BIO *bio, *b64;
         BUF_MEM *bufferPtr;
         
@@ -33,7 +40,7 @@ namespace JWT {
         return result;
     }
 
-    static std::string base64_decode(const std::string &in) {
+    inline std::string base64_decode(const std::string &in) {
         BIO *bio, *b64;
         BUF_MEM *bufferPtr;
         
@@ -56,7 +63,7 @@ namespace JWT {
     }
 
     // Function to encode JWT
-    static std::string createJWT(const std::string &header_json, const std::string &payload_json, const std::string &secret) {
+    inline std::string createJWT(const std::string &header_json, const std::string &payload_json, const std::string &secret) {
         // Base64 URL Encode the header
         auto encodedHeader = base64_encode(reinterpret_cast<const unsigned char*>(header_json.c_str()), header_json.length());
         // Base64 URL Encode the payload
@@ -82,7 +89,7 @@ namespace JWT {
         return jwt;
     }
 
-    static std::string hmacSha256(const std::string &key, const std::string &data) {
+    inline std::string hmacSha256(const std::string &key, const std::string &data) {
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int length = 0;
 
@@ -93,7 +100,7 @@ namespace JWT {
         return std::string(reinterpret_cast<char*>(hash), length);
     }
 
-    static bool verifyJWT(const std::string &token, const std::string &secret) {
+    inline bool verifyJWT(const std::string &token, const std::string &secret) {
         // Split the token into its three parts
         size_t pos1 = token.find('.');
         size_t pos2 = token.find('.', pos1 + 1);
@@ -144,7 +151,7 @@ namespace JWT {
         return true;
     }
 
-    static nlohmann::json get_payload(std::string token, std::string secret) {
+    inline nlohmann::json get_payload(std::string token, std::string secret) {
         size_t pos1 = token.find('.');
         size_t pos2 = token.find('.', pos1 + 1);
         
@@ -160,7 +167,7 @@ namespace JWT {
         return jsonPayload;
     }
 
-    static nlohmann::json get_header(std::string token, std::string secret) {
+    inline nlohmann::json get_header(std::string token, std::string secret) {
         size_t pos1 = token.find('.');
         size_t pos2 = token.find('.', pos1 + 1);
         
