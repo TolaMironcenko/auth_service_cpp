@@ -36,7 +36,7 @@ void auth(const httplib::Request &request, httplib::Response &response) {
 
     std::string userid;
     for (nlohmann::basic_json<> user: all_users) {
-        if ((user["username"] == request_username) && (user["password"] == hashPassword(request_password))) {
+        if ((user["username"] == request_username) && (user["password"] == request_password)) {
             userid = user["id"];
             break;
         }
