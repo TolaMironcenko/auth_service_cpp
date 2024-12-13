@@ -1,0 +1,12 @@
+[binaries]
+c = 'arm-buildroot-linux-uclibcgnueabihf-gcc'
+cpp = 'arm-buildroot-linux-uclibcgnueabihf-g++'
+ar = 'arm-buildroot-linux-uclibcgnueabihf-ar'
+strip = 'arm-buildroot-linux-uclibcgnueabihf-strip'
+ld = 'arm-buildroot-linux-uclibcgnueabihf-ld'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
